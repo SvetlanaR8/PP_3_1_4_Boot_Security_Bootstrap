@@ -2,11 +2,9 @@ package ru.kata.spring.boot_security.demo.repository;
 
 import org.springframework.stereotype.Repository;
 import ru.kata.spring.boot_security.demo.model.Role;
-import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,25 +15,17 @@ public class RoleDaoImpl implements RoleDao{
     private EntityManager entityManager;
     @Override
     public void add(Role role) {
-        if (Objects.isNull(role.getId())) {
-            entityManager.persist(role);
-        } else {
-            if (!Objects.isNull(show(role.getId()))) {
-                entityManager.merge(role);
-            }
-        }
+        entityManager.persist(role);
     }
 
     @Override
     public List<Role> findAll() {
-        Query query = entityManager.createQuery("FROM Role");
-        return query.getResultList();
+        return entityManager.createQuery("SELECT DISTINCT r FROM Role r").getResultList();
     }
 
     @Override
     public Role show(Long id) {
-        Role role = entityManager.find(Role.class, id);
-        return role;
+        return entityManager.find(Role.class, id);
     }
 
     @Override

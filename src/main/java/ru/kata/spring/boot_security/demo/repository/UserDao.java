@@ -8,6 +8,8 @@ import java.util.List;
 public interface UserDao {
 
     void add(User user);
+
+    void update (User user);
     List<User> findAll();
 
     User show(Long id);
